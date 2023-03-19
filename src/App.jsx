@@ -1,22 +1,21 @@
-import React from "react";
-// import reactSvg from "./assets/react.svg";
-// <img src={reactSvg} alt="" />
-// {import.meta.env.VITE_APIKEY}
+import React, { useState, createContext } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home, Search } from "./pages";
+import { Navbar } from "./components";
 
-const App = () => {
+export const ContextSearch = createContext();
+
+export const App = () => {
+  const [contStrSearch, setContStrSearch] = useState("");
   return (
-    <div>
-      <div className="navbar"></div>
-      <div className="main">
-        <img
-          loading="lazy"
-          src="https://www.themoviedb.org/t/p/w220_and_h330_face/3th5xbj2SvrjZ4Zy85hau2c94Rz.jpg"
-          alt=""
-        />
-      </div>
-      <div className="footer"></div>
-    </div>
+    <BrowserRouter>
+      <ContextSearch.Provider value={{ contStrSearch, setContStrSearch }}>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/search/:strSearch" element={<Search />} />
+        </Routes>
+      </ContextSearch.Provider>
+    </BrowserRouter>
   );
 };
-
-export default App;
