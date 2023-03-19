@@ -1,74 +1,20 @@
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useState, useContext } from "react";
 import { ContextSearch } from "../App";
 // import data from "../week.json";
 // import detail from "../detail.json";
 import { Detail, MovieCard } from "../components";
+import { useGetDataMovies, useDetailMovie } from "../hooks";
 
 export const Home = () => {
-  const [dataMovies, setDataMovies] = useState([]);
-  const [randMovie, setRandMovie] = useState(0);
   const { setContStrSearch } = useContext(ContextSearch);
-  const [detailMovie, setDetailMovie] = useState({});
   const [findDetail, setFindDetail] = useState({});
-  const [modal, setModal] = useState(false);
+  const { dataMovies, randMovie } = useGetDataMovies({ setContStrSearch });
+  const { detailMovie, modal, setModal } = useDetailMovie({
+    findDetail,
+    setFindDetail,
+    setContStrSearch,
+  });
   const frontPath = "https://www.themoviedb.org/t/p/w300_and_h450_bestv2";
-
-  useEffect(() => {
-    // setDataMovies(data.results);
-    // setDetailMovie(detail);
-    const config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: `https://api.themoviedb.org/3/trending/all/week?api_key=${
-        import.meta.env.VITE_APIKEY
-      }`,
-      headers: {},
-    };
-
-    axios(config)
-      .then(function (response) {
-        // console.log(JSON.stringify(response.data));
-        setDataMovies(response.data.results);
-        setContStrSearch("");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    setRandMovie(Math.floor(Math.random() * dataMovies?.length));
-  }, [dataMovies]);
-
-  useEffect(() => {
-    const getDetailFunc = () => {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://api.themoviedb.org/3/${findDetail.type}/${
-          findDetail.id
-        }?api_key=${import.meta.env.VITE_APIKEY}`,
-        headers: {},
-      };
-      axios(config)
-        .then(function (response) {
-          // console.log(JSON.stringify(response.data));
-          setDetailMovie(response.data);
-          setModal(true);
-          setContStrSearch("");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
-    Object.keys(findDetail).length > 0 && getDetailFunc();
-  }, [findDetail]);
-
-  useEffect(() => {
-    !modal && setFindDetail("");
-  }, [modal]);
 
   return (
     <div className="relative">

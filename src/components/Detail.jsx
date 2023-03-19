@@ -8,10 +8,10 @@ export const Detail = ({ detailMovie, setModal }) => {
       onClick={(e) => {
         e.target.id === "bgDropDetail" && setModal(false);
       }}
-      className="fixed top-0 left-0 h-full w-full bg-fixed flex justify-center items-start md:items-center bg-black/80 font-montserrat text-sm p-4 pt-20 z-20"
+      className="fixed top-0 left-0 h-full w-full bg-fixed flex justify-center items-start md:items-center bg-black/80 font-montserrat text-sm p-4 pt-12 md:pt-20 z-20"
     >
       {Object.keys(detailMovie).length > 0 && (
-        <div className="relative w-2/3 rounded-lg p-2">
+        <div className="relative w-5/6 rounded-lg p-2">
           <div
             className="absolute top-0 left-0 w-full h-full bg-cover bg-center rounded-lg blur-sm brightness-[25%]"
             style={{
